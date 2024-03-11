@@ -39,6 +39,8 @@ public class FinishlineSystem : MonoBehaviour
     {
         transform.DOMoveZ(transform.position.z + 27.5f,6,false).OnComplete(delegate
         {
+            _anim =GetComponent<PlayerMovement>()._anim;
+            // GetComponent<PlayerMovement>()._anim.SetTrigger("idel");
             _anim.SetTrigger("idel");
             transform.DOMoveX(-1,1,false);
             Camera.main.GetComponent<CinemachineBrain>().enabled = false;
@@ -59,9 +61,18 @@ public class FinishlineSystem : MonoBehaviour
     }
     private void Dance()
     {
-        _anim.SetInteger("Dance",Random.Range(1,4));
+        // _anim.SetInteger("Dance",Random.Range(1,4));
+        _anim.SetInteger("Dance",Random.Range(1,9));
         _hasban.GetComponent<Animator>().SetInteger("Dance",Random.Range(1,7));
     }
+    public void ChangeDance()
+    {
+        _anim.SetInteger("Dance",0);
+        _hasban.GetComponent<Animator>().SetInteger("Dance",0);
+        Invoke("Dance",.7f);
+
+    }
+
     public void PlayVFX()
     {
         for (int i = 0; i < _partical.Length; i++)

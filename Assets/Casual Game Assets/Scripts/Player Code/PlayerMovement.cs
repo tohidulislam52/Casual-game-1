@@ -10,9 +10,10 @@ public class PlayerMovement : MonoBehaviour
     [Header("Components")]
    [SerializeField] private CharacterController _ChaContrler;
    [SerializeField] private Joystick _joystick;
-   [SerializeField] private Animator _anim;
+   [SerializeField] public Animator _anim;
    [SerializeField] public GameObject[] _playerss;
    [SerializeField] private Text NumberText;
+   private int zz;
 
 
     [Header("Veriables")]
@@ -25,7 +26,14 @@ public class PlayerMovement : MonoBehaviour
     {
             // _anim.SetInteger("anim",2);
             // StartCoroutine(StratGame());
-        
+         for (int i = 0; i < _playerss.Length; i++)
+            {
+                if(_playerss[i].activeInHierarchy)
+                {
+                    _anim = _playerss[i].GetComponent<Animator>();
+                   
+                }
+            }
     }
 
    void Update()
@@ -44,6 +52,17 @@ public class PlayerMovement : MonoBehaviour
 
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, minimax.x, minimax.y),
                            transform.position.y, transform.position.z);
+
+        for (int i = 0; i < _playerss.Length; i++)
+            {
+                if(_playerss[i].activeInHierarchy)
+                {
+                    _playerss[i].gameObject.transform.position = new Vector3(transform.position.x,-.5f,transform.position.z);
+                    gameObject.transform.position = new Vector3(transform.position.x,0.17f,transform.position.z); 
+                   
+                }
+            }
+        
     }
 
     private void Playermove()
@@ -64,8 +83,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if(hit.transform.tag == "Object")
         {
-            hit.gameObject.GetComponent<ObjectAnimation>()._canAnimation = true;
-            UiManager.instance._helth += hit.gameObject.GetComponent<ObjectAnimation>()._Value; 
+            ObjectAnimation objectAnimation = hit.gameObject.GetComponent<ObjectAnimation>();
+            hit.gameObject.GetComponent<Collider>().enabled = false;
+            objectAnimation._canAnimation = true;
+            UiManager.instance._helth += objectAnimation._Value; 
+            objectAnimation._Value =0;
             // Destroy(hit.gameObject);
             hit.gameObject.SetActive(false);
         }
@@ -90,20 +112,21 @@ public class PlayerMovement : MonoBehaviour
 
         if(hit.gameObject.tag == "Traps")
         {
-            for (int i = 0; i < _playerss.Length; i++)
-            {
-                if(_playerss[i].activeInHierarchy)
-                {
-                    _anim = _playerss[i].GetComponent<Animator>();
-                }
-            }
+            // for (int i = 0; i < _playerss.Length; i++)
+            // {
+            //     if(_playerss[i].activeInHierarchy)
+            //     {
+            //         _anim = _playerss[i].GetComponent<Animator>();
+                   
+            //     }
+            // }
             _canMove = false;
             _DontMove = true;
             _anim.SetInteger("anim",2);
             transform.DOMoveZ(transform.position.z -13,.5f,false).OnComplete(delegate
             {
                 _anim.SetInteger("anim",1);
-                Invoke("AnimationAfterMove",3.8f);
+                Invoke("AnimationAfterMove",4.5f);
             });
             
         }
@@ -114,9 +137,11 @@ public class PlayerMovement : MonoBehaviour
     {
         // if(_anim.GetCurrentAnimatorStateInfo(0).IsName("Jogging"))
         // {
+            
         _DontMove =false;
         _canMove = true;
         Debug.Log("UP");
+        
         // }
     }
     IEnumerator StratGame()
