@@ -40,13 +40,7 @@ public class PlayerMovement : MonoBehaviour
     {
         
         
-        if(Input.GetMouseButtonDown(0) && !_canMove && !_DontMove)
-        {
-            _canMove = true;
-            // _anim.SetInteger("anim",1);
-            // _anim.SetBool("b",true);
-        }
-            
+        
         if(_canMove)
             Playermove();
 
@@ -84,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
         if(hit.transform.tag == "Object")
         {
             ObjectAnimation objectAnimation = hit.gameObject.GetComponent<ObjectAnimation>();
-            hit.gameObject.GetComponent<Collider>().enabled = false;
+            
             objectAnimation._canAnimation = true;
             UiManager.instance._helth += objectAnimation._Value; 
             objectAnimation._Value =0;
@@ -105,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Left");
                 hit.gameObject.GetComponent<Dorr>().DoorAnim();
                 hit.gameObject.GetComponent<Dorr>()._leftSprite.enabled = false;
-                UiManager.instance._helth += hit.gameObject.GetComponent<Dorr>()._leftDorPoint;
+                UiManager.instance._helth += hit.gameObject.GetComponent<Dorr>()._leftoDorPoint;
             }
             hit.gameObject.GetComponent<Collider>().enabled = false;
         }
