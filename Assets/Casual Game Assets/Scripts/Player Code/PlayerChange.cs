@@ -29,17 +29,7 @@ public class PlayerChange : MonoBehaviour
     {
         
     }
-    private void Playerchangeeee(int lap)
-    {
-        if(lap == 1)
-        {
-        StartCoroutine(PlayerSkinChange(1));
-        }
-        else if(lap ==2)
-        {
-            StartCoroutine(PlayerSkinChange(PlayerPrefs.GetInt("Player")+2));
-        }
-    }
+    
 
     IEnumerator PlayerSkinChange(int skinNum)
     {
@@ -55,9 +45,9 @@ public class PlayerChange : MonoBehaviour
             }
         }
         // skin number
-        _PlayerMove._playerss[skinNum].gameObject.SetActive(true);
+        
         // transform.GetChild(0).GetChild(skinNum).gameObject.SetActive(true);
-        yield return new WaitForSeconds(2f);
+        
         for (int i = 0; i < _PlayerMove._playerss.Length; i++)
         {
             if(_PlayerMove._playerss[i].activeInHierarchy)
